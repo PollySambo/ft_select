@@ -6,7 +6,7 @@
 /*   By: psambo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 09:27:21 by psambo            #+#    #+#             */
-/*   Updated: 2018/09/21 13:43:43 by psambo           ###   ########.fr       */
+/*   Updated: 2018/09/22 15:38:21 by psambo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 ** Struct to hold data
 */
 
-typedef struct		s_select
+typedef struct		s_pick
 {
 	struct termios	term;
 	struct winsize	win;
@@ -47,66 +47,65 @@ typedef struct		s_select
 	int				*selected;
 	int				n_items;
 	int				pos;
-}					t_select;
+}					t_pick;
 
-t_select			*ft_save_and_load(t_select *select, int mode);
+t_pick			*ft_save_and_load(t_pick *pick, int mode);
 
 /*
 ** list functions
 */
 
+int					ft_strlen(char *str);
 char				*ft_strdup(char *str);
-void				ft_add_list(t_select *select, int n, char **list);
-void				ft_print_list(t_select *select);
-int					ft_get_longest_item(t_select *select);
-void				ft_free_mem(t_select *select);
+void				ft_add_list(t_pick *pick, int n, char **list);
+void				ft_print_list(t_pick *pick);
+int					ft_get_longest_item(t_pick *pick);
+void				free_memory(t_pick *pick);
 
 /*
 ** Stop the procces
 */
 
-void				ft_exit(void);
+void				exiting(void);
 
 /*
 ** Printing functions
 */
 
-int					ft_put_char(int c);
-int					ft_put_char_fd(int c, int fd);
-void				ft_put_str(char *str);
-void				ft_put_str_fd(char *str, int fd);
-void				ft_put_endl(char *str);
-void				ft_put_yellow(char *str);
-//void				ft_put_yellow(char *str);
-void				ft_put_underline(char *str, void (*ft_pt)(char*));
-void				ft_put_highlight(char *str, void (*ft_pt)(char*));
-//void				ft_put_underline_highlight(char *str, void (*ft_pt)(char*));
+int					ft_putchar(int c);
+int					ft_putchar_fd(int c, int fd);
+void				ft_putstr(char *str);
+void				ft_putstr_fd(char *str, int fd);
+void				ft_putendl(char *str);
+void				yellow(char *str);
+void				underline(char *str, void (*ft_pt)(char*));
+void				highlight(char *str, void (*ft_pt)(char*));
 
 /*
 ** Edit terminal's configuration
 */
 
-void				ft_clear_terminal(void);
-int					ft_change_term_behavior(struct termios *term);
-int					ft_reset_term_behavior(struct termios *term);
+void				clear_iterm(void);
+int					change_iterm(struct termios *term);
+int					reset_iterm(struct termios *term);
 
 /*
 ** Handle signals
 */
 
-void				ft_handle_signals(void);
-void				ft_win_change(void);
+void				signals_handle(void);
+void				wind_chage(void);
 
 /*
 ** Handle keyboard input
 */
 
-void				ft_keyhook(void);
-void				ft_go_up(t_select *select);
-void				ft_go_down(t_select *select);
-void				ft_select_item(t_select *select);
-void				ft_enter(t_select *select);
+void				keyboard(void);
+void				up_cursor(t_pick *pick);
+void				down_cursor(t_pick *pick);
+void				ft_select_item(t_pick *pick);
+void				enter(t_pick *pick);
 //void				ft_remove_item(t_select *select);
-void				ft_clr(char *str);
+void				ft_clear(char *str);
 
 #endif

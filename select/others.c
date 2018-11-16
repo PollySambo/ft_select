@@ -6,13 +6,13 @@
 /*   By: psambo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 09:12:11 by psambo            #+#    #+#             */
-/*   Updated: 2018/09/21 10:14:12 by psambo           ###   ########.fr       */
+/*   Updated: 2018/09/22 14:57:01 by psambo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void		ft_clr(char *str)
+void		ft_clear(char *str)
 {
 	int	i;
 
@@ -53,11 +53,11 @@ char		*ft_strdup(char *str)
 	return (dest);
 }
 
-t_select	*ft_save_and_load(t_select *select, int mode)
+t_pick	*ft_save_and_load(t_pick *pick, int mode)
 {
-	static t_select	*tmp = NULL;
+	static t_pick	*tmp = NULL;
 
 	if (mode == 0)
-		tmp = select;
+		tmp = pick;
 	return (tmp);
 }

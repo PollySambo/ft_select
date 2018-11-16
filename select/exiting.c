@@ -6,18 +6,18 @@
 /*   By: psambo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 09:11:40 by psambo            #+#    #+#             */
-/*   Updated: 2018/09/21 10:09:40 by psambo           ###   ########.fr       */
+/*   Updated: 2018/09/22 15:39:04 by psambo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	ft_exit(void)
+void	exiting(void)
 {
-	t_select	*out;
+	t_pick	*out;
 
 	out = ft_save_and_load(NULL, 1);
-	ft_free_mem(out);
-	ft_reset_term_behavior(&(out->term));
+	free_memory(out);
+	reset_iterm(&(out->term));
 	exit(0);
 }

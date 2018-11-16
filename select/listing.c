@@ -6,39 +6,39 @@
 /*   By: psambo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 09:11:54 by psambo            #+#    #+#             */
-/*   Updated: 2018/09/21 13:41:38 by psambo           ###   ########.fr       */
+/*   Updated: 2018/09/22 15:42:49 by psambo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void		ft_free_mem(t_select *select)
+void		free_memory(t_pick *pick)
 {
 	int	i;
 
 	i = 0;
-	while ((select->items)[i] != '\0')
+	while ((pick->items)[i] != '\0')
 	{
-		free((select->items)[i]);
+		free((pick->items)[i]);
 		i++;
 	}
-	free(select->items);
-	free(select->selected);
+	free(pick->items);
+	free(pick->selected);
 }
 
-int			ft_get_longest_item(t_select *select)
+int			ft_get_longest_item(t_pick *pick)
 {
 	int		j;
 	int		length;
 	int		i;
 
 	j = 0;
-	if (select->n_items <= 0)
+	if (pick->n_items <= 0)
 		return (0);
-	length = strlen((select->items)[0]);
-	while ((select->items)[j] != '\0')
+	length = ft_strlen((pick->items)[0]);
+	while ((pick->items)[j] != '\0')
 	{
-		i = strlen((select->items)[j]);
+		i = strlen((pick->items)[j]);
 		if (length <= i)
 			length = i;
 		j++;
@@ -46,66 +46,62 @@ int			ft_get_longest_item(t_select *select)
 	return (length);
 }
 
-static int	ft_check_winsize(t_select *select)
+static int	ft_check_winsize(t_pick *pick)
 {
 	int		i;
 
-	i = ft_get_longest_item(select);
-	if (select->win.ws_row <= select->n_items || select->win.ws_col <= i)
+	i = ft_get_longest_item(pick);
+	if (pick->win.ws_row <= pick->n_items || pick->win.ws_col <= i)
 	{
-		if (select->win.ws_row <= select->n_items)
-			ft_put_endl("* Window height is too small.");
-		if (select->win.ws_col <= i)
-			ft_put_endl("* Window width is too small.");
+		if (pick->win.ws_row <= pick->n_items)
+			ft_putendl("* Window height is too small.");
+		if (pick->win.ws_col <= i)
+			ft_putendl("* Window width is too small.");
 		return (-1);
 	}
 	return (1);
 }
 
-void		ft_print_list(t_select *select)
+void		ft_print_list(t_pick *pick)
 {
 	int	i;
 
 	i = 0;
-	ft_clear_terminal();
-	if (ft_check_winsize(select) == -1)
+	clear_iterm();
+	if (ft_check_winsize(pick) == -1)
 		return ;
-	while ((select->items)[i] != '\0')
+	while ((pick->items)[i] != '\0')
 	{
-		if (select->pos == i)
-		{
-			//if (select->selected[i] == 1)
-			//	ft_put_underline_highlight((select->items)[i], ft_put_yellow);
-				ft_put_underline((select->items)[i], ft_put_yellow);
-		}
+		if (pick->pos == i)
+				underline((pick->items)[i], yellow);
 		else
 		{
-			if (select->selected[i] == 1)
-				ft_put_highlight((select->items)[i], ft_put_yellow);
+			if (pick->selected[i] == 1)
+				highlight((pick->items)[i], yellow);
 			else
-				ft_put_endl((select->items)[i]);
+				ft_putendl((pick->items)[i]);
 		}
 		i++;
 	}
 }
 
-void		ft_add_list(t_select *select, int n, char **list)
+void		ft_add_list(t_pick *pick, int n, char **list)
 {
 	int	i;
 
 	i = 0;
-	select->items = (char**)malloc(sizeof(char*) * (n + 1));
-	select->selected = (int*)malloc(sizeof(int) * (n + 1));
-	if (select->items == NULL || select->selected == NULL)
+	pick->items = (char**)malloc(sizeof(char*) * (n + 1));
+	pick->selected = (int*)malloc(sizeof(int) * (n + 1));
+	if (pick->items == NULL || pick->selected == NULL)
 		return ;
-	(select->items)[n] = (char*)'\0';
-	(select->selected)[n] = (int)'\0';
-	select->n_items = n;
-	select->pos = 0;
+	(pick->items)[n] = (char*)'\0';
+	(pick->selected)[n] = (int)'\0';
+	pick->n_items = n;
+	pick->pos = 0;
 	while (i < n)
 	{
-		(select->items)[i] = ft_strdup(list[i]);
+		(pick->items)[i] = ft_strdup(list[i]);
 		i++;
 	}
-	ioctl(FILE_DS, TIOCGWINSZ, &(select->win));
+	ioctl(FILE_DS, TIOCGWINSZ, &(pick->win));
 }
